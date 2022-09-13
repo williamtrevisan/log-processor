@@ -1,0 +1,1 @@
+CREATE DATABSE IF NOT EXISTS log_processor;
