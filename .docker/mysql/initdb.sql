@@ -1,1 +1,1 @@
-CREATE DATABSE IF NOT EXISTS log_processor;
+CREATE DATABASE IF NOT EXISTS log_processor;

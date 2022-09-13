@@ -18,8 +18,8 @@ return new class extends Migration
             $table->uuid('service_id');
             $table->string('service_name');
             $table->string('method');
-            $table->string('uniform_resource_identifier');
-            $table->string('uniform_resource_locator');
+            $table->string('uri');
+            $table->string('url');
             $table->smallInteger('size');
             $table->smallInteger('response_status');
             $table->smallInteger('proxy_latency');

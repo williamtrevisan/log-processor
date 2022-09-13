@@ -14,7 +14,7 @@ services:
 
     nginx:
         build: .docker/nginx
-        container_name: microservice-videos-nginx
+        container_name: log-processor-nginx
         restart: always
         tty: true
         ports:
@@ -28,7 +28,7 @@ services:
 
     db:
         build: ./.docker/mysql
-        container_name: log-procesor-db
+        container_name: log-processor-db
         restart: always
         tty: true
         ports:
