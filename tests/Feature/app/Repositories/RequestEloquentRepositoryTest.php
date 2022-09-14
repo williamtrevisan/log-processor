@@ -5,9 +5,7 @@ namespace Tests\Feature\app\Repositories;
 use App\Models\Request;
 use App\Repositories\Eloquent\RequestEloquentRepository;
 use App\Repositories\Eloquent\RequestRepositoryInterface;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Response;
 use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
@@ -244,7 +242,7 @@ class RequestEloquentRepositoryTest extends TestCase
                         'request_latency' => 1837,
                     ],
                 ],
-            ]
+            ],
         ];
     }
 }

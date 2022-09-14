@@ -8,8 +8,11 @@ use Tests\TestCase;
 abstract class ReportTestCase extends TestCase
 {
     abstract protected function report(): ReportRepositoryInterface;
+
     abstract protected function filename(): string;
+
     abstract protected function header(): array;
+
     abstract protected function data(): array;
 
     /**

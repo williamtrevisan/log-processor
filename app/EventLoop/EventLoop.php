@@ -2,7 +2,6 @@
 
 namespace App\EventLoop;
 
-use App\EventLoop\BaseEventLoop;
 use Fiber;
 
 class EventLoop
@@ -46,6 +45,7 @@ class EventLoop
         }
 
         unset($this->callStack[$id]);
+
         return $fiber->getReturn();
     }
 }

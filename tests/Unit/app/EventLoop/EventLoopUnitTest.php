@@ -25,10 +25,10 @@ class EventLoopUnitTest extends TestCase
         int $expectedCount,
         array $callables
     ): void {
-        array_walk($callables, fn($callable) => $this->eventLoop->register($callable));
+        array_walk($callables, fn ($callable) => $this->eventLoop->register($callable));
         $callStack = $this->eventLoop->getCallStack();
 
-        $expectedCallstack = array_map(fn($callable) => new Fiber($callable), $callables);
+        $expectedCallstack = array_map(fn ($callable) => new Fiber($callable), $callables);
         $this->assertEquals($expectedCallstack, $callStack);
         $this->assertCount($expectedCount, $callStack);
     }
@@ -52,7 +52,7 @@ class EventLoopUnitTest extends TestCase
                 }
             },
         ];
-        array_walk($callables, fn($callable) => $this->eventLoop->register($callable));
+        array_walk($callables, fn ($callable) => $this->eventLoop->register($callable));
 
         $this->eventLoop->execute();
 

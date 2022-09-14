@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Enums\FileModes;
+use App\Exceptions\NoDataException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GenerateReportsResource;
+use App\Repositories\Eloquent\RequestRepositoryInterface;
 use App\Repositories\Reports\RequestsByConsumerReportRepository;
 use App\Repositories\Reports\RequestsByServiceReportRepository;
 use App\Repositories\Reports\RequestsWithAverageLatencyByServiceReportRepository;
-use App\Repositories\Eloquent\RequestRepositoryInterface;
-use App\Exceptions\NoDataException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -104,10 +104,10 @@ class GenerateReportsController extends Controller
 
     private function createCsvFile(string $filename, array $content): string
     {
-        $filepath = app()->storagePath('reports/') . $filename;
+        $filepath = app()->storagePath('reports/').$filename;
 
         $file = fopen($filepath, FileModes::Write->value);
-        array_walk($content, fn($line) => fputcsv($file, $line, ';'));
+        array_walk($content, fn ($line) => fputcsv($file, $line, ';'));
         fclose($file);
 
         return substr($filepath, 9);

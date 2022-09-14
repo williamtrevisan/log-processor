@@ -42,7 +42,7 @@ class ProcessRequestsApiTest extends TestCase
      */
     public function must_be_able_to_process_file_received(): void
     {
-        $fileContent = file_get_contents(__DIR__ . '/logs.txt');
+        $fileContent = file_get_contents(__DIR__.'/logs.txt');
         $file = File::createWithContent('logs.txt', $fileContent);
 
         $response = $this->postJson($this->uri, ['requests' => $file]);

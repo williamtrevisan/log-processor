@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\FileModes;
 use App\EventLoop\EventLoop;
+use App\Exceptions\InvalidFileException;
 use App\Http\Controllers\Controller;
 use App\Repositories\Eloquent\RequestRepositoryInterface;
 use App\Transformers\RequestTransformer;
-use App\Exceptions\InvalidFileException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -52,7 +52,7 @@ class ProcessRequestsController extends Controller
 
     private function existsConsumerIdKey(string $request): bool
     {
-        return key_exists('started_at', RequestTransformer::toArray($request));
+        return array_key_exists('started_at', RequestTransformer::toArray($request));
     }
 
     private function deleteRecords(): void
@@ -76,6 +76,7 @@ class ProcessRequestsController extends Controller
 
         if (! $requests) {
             $this->eventLoop->execute();
+
             return;
         }
 

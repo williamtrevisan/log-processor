@@ -3,7 +3,6 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Request;
-use Illuminate\Support\Facades\DB;
 
 class RequestEloquentRepository implements RequestRepositoryInterface
 {
@@ -44,9 +43,9 @@ class RequestEloquentRepository implements RequestRepositoryInterface
         }
 
         return $query->groupBy([
-                'service_id',
-                'service_name',
-            ])
+            'service_id',
+            'service_name',
+        ])
             ->orderBy('quantity_requests')
             ->get()
             ->toArray();
@@ -55,6 +54,7 @@ class RequestEloquentRepository implements RequestRepositoryInterface
     public function count(): int
     {
         $requests = $this->request->all();
+
         return count($requests);
     }
 
