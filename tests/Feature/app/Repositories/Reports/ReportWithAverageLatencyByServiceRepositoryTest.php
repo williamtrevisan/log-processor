@@ -25,7 +25,7 @@ class ReportWithAverageLatencyByServiceRepositoryTest extends ReportTestCase
 
     protected function filename(): string
     {
-        return 'report-with-average-latency-by-service.csv';
+        return 'requests-with-average-latency-by-service.csv';
     }
 
     protected function header(): array

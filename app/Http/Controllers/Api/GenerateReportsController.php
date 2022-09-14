@@ -55,9 +55,9 @@ class GenerateReportsController extends Controller
             $this->generateReportWithAverageLatencyByService();
 
         return [
-            'report-by-consumer' => ['filepath' => $reportByConsumerPath],
-            'report-by-service' => ['filepath' => $reportByServicePath],
-            'report-with-average-latency-by-service' => [
+            'requests-by-consumer' => ['filepath' => $reportByConsumerPath],
+            'requests-by-service' => ['filepath' => $reportByServicePath],
+            'requests-with-average-latency-by-service' => [
                 'filepath' => $reportWithAverageLatencyByServicePath,
             ],
         ];
@@ -110,6 +110,6 @@ class GenerateReportsController extends Controller
         array_walk($content, fn($line) => fputcsv($file, $line, ';'));
         fclose($file);
 
-        return substr($filepath, 8);
+        return substr($filepath, 9);
     }
 }

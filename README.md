@@ -75,11 +75,6 @@ php artisan test
 
 ## Para execução dos testes manualmente:
 
-1. Inicie o servidor
-```bash
-php artisan serve
-```
-
 ### **POST** - Processamento de Requests
 > http://localhost:8000/api/process_requests
 
@@ -107,7 +102,7 @@ A fim de possibilitar geração dos arquivos posterior ao processamento dos dado
 curl --location --request GET 'http://localhost:8000/api/generate_reports'
 ```
 
-2. Com a requisição realizada será possível estar realizando a visualização dos relatórios atráves dos seguintes comandos:
+1. Com a requisições executadas será possível estar realizando a visualização dos relatórios atráves dos seguintes comandos:
 ```bash
 # Requisições por consumidor
     # Para visualizar todos os dados
@@ -126,3 +121,6 @@ curl --location --request GET 'http://localhost:8000/api/generate_reports'
   cat storage/reports/requests-with-average-latency-by-service.csv
 ```
 
+## Considerações gerais
+
+Entendo que o projeto em questão foi bastante importante para que eu possa estar colocando alguns conhecimentos em prática e também para estar considerando alguns pontos no momento de desenvolvimento - o que foi o caso de como realizar o processamento das informações. Por conta disso, agradeço a oportunidade de ter recebido tal desafio. Fico a disposição para possíveis dúvidas que surgirem.

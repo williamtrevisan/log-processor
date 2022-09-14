@@ -41,19 +41,19 @@ class GenerateReportsApiTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'data' => [
-                'report-by-consumer' => ['filepath'],
-                'report-by-service' => ['filepath'],
-                'report-with-average-latency-by-service' => ['filepath'],
+                'requests-by-consumer' => ['filepath'],
+                'requests-by-service' => ['filepath'],
+                'requests-with-average-latency-by-service' => ['filepath'],
             ],
         ]);
         $this->assertTrue(
-            file_exists($response['data']['report-by-consumer']['filepath'])
+            file_exists($response['data']['requests-by-consumer']['filepath'])
         );
         $this->assertTrue(
-            file_exists($response['data']['report-by-service']['filepath'])
+            file_exists($response['data']['requests-by-service']['filepath'])
         );
         $this->assertTrue(
-            file_exists($response['data']['report-with-average-latency-by-service']['filepath'])
+            file_exists($response['data']['requests-with-average-latency-by-service']['filepath'])
         );
     }
 }

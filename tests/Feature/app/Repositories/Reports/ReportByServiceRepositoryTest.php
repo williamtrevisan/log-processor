@@ -25,7 +25,7 @@ class ReportByServiceRepositoryTest extends ReportTestCase
 
     protected function filename(): string
     {
-        return 'report-by-service.csv';
+        return 'requests-by-service.csv';
     }
 
     protected function header(): array

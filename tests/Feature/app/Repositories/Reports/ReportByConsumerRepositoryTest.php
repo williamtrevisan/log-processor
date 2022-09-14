@@ -25,7 +25,7 @@ class ReportByConsumerRepositoryTest extends ReportTestCase
 
     protected function filename(): string
     {
-        return 'report-by-consumer.csv';
+        return 'requests-by-consumer.csv';
     }
 
     protected function header(): array
