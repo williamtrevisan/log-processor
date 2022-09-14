@@ -102,12 +102,14 @@ curl --location --request GET 'http://localhost:8000/api/generate_reports'
 
 1. Com a requisições executadas será possível estar realizando a visualização dos relatórios atráves dos seguintes comandos:
 ```bash
+# OBS: Executar no container
+
 # Requisições por consumidor
     # Para visualizar todos os dados
       cat storage/reports/requests-by-consumer.csv
       
     # Para visualizar somente os 15 primeiros
-      header --lines=10 storage/reports/requests-by-consumer.csv
+      head --lines=10 storage/reports/requests-by-consumer.csv
       
     # Para visualizar somente os 15 últimos
       tail --lines=10 storage/reports/requests-by-consumer.csv
