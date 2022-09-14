@@ -1,64 +1,128 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# LOG PROCESSOR
+<br>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Log processor é uma aplicação realizada como teste backend para [Melhor Envio](https://melhorenvio.com.br/), é pensando para realizar o processamento de dados oriundos de um arquivo .txt, realizar o salvamento de dados importantes no banco de dados e posteriormente realizar a geração de relatórios com base nos dados coletados.
 
-## About Laravel
+## Tecnologias utilizadas
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Inicialmente havia optado pela utilização do [Laravel Zero](https://laravel-zero.com/) pelo fato que de o mesmo não teria tantas dependências comparado ao [Laravel](https://laravel.com/) mantendo a stack da empresa (PHP/Laravel), porém, durante o desenvolvimento acabei identificando um problema quanto a realização do upload do arquivo dentro do projeto, levando em consideração que eu não estava imaginando subir o arquivo .txt em um host e o github não aceitaria realizar o push do mesmo por ser grande demais. Por conta disso acabei optando por utilizar o [Laravel](https://laravel.com/) para execução do projeto.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Por conta da necessidade de processamento dos dados e levando em consideração que seria interessante optar por alto performático/veloz acabei optando pela utilização do [MySQL](https://www.mysql.com/) no banco de dados, acabou-se mantendo o que a empresa utiliza no dia-a-dia. Para essa decisão levei em consideração os seguintes artigos:
+1. [PostgreSQL x MySQL. Qual Escolher?](https://www.devmedia.com.br/postgresql-x-mysql-qual-escolher/3923#:~:text=O%20MySQL%20%C3%A9%20o%20mais,mais%20recursos%20que%20o%20MySQL.)
+2. [MySQL ou PostgreSQL – Qual é o melhor?](https://blog.schoolofnet.com/mysql-ou-postgresql-qual-e-o-melhor/)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Também fora optado pelo [PHPUnit](https://phpunit.de/) para realização e criação dos testes e o [Eloquent](Também fora optado pelo [PHPUnit](https://phpunit.de/) para realização e criação dos testes e o [Eloquent](https://laravel.com/docs/9.x/eloquent) como ORM.
 
-## Learning Laravel
+## Como executar/reproduzir a aplicação
+1. Inicialmente realize o clone do projeto utilizando um dos comandos abaixo, conforme preferencia:
+```bash
+# ssh
+git clone git@github.com:williamtrevisan/log-processor.git
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+# https
+git clone https://github.com/williamtrevisan/log-processor.git
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. Acesse a pasta em que o arquivo foi clonado com o comando abaixo:
+```bash
+cd log-processor
+```
 
-## Laravel Sponsors
+3. Crie o arquivo .env realizando a copia do mesmo com base no .env.example, abaixo comando para realizar a copia:
+```bash
+cp .env.example .env
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+4. Tendo efetuado a copia/criação do arquivo .env atualize as informações do BD com base nas informadas abaixo:
+```bash
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=log_process
+DB_USERNAME=root
+DB_PASSWORD=root
+```
 
-### Premium Partners
+5. Suba o container:
+```bash
+docker-compose up -d
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+6. Acesse o container:
+```bash
+docker-compose exec app bash
+```
 
-## Contributing
+7. Realize a instalação das dependências:
+```bash
+composer install
+```
+ 
+8. Realize a geração da chave da aplicação:
+```bash
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+9. Execute a criação da tabela:
+```bash
+php artisan migrate
+```
 
-## Code of Conduct
+## Para execução dos testes de unidade, integração e e2e execute o comando abaixo:
+```bash
+php artisan test
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Para execução dos testes manualmente:
 
-## Security Vulnerabilities
+1. Inicie o servidor
+```bash
+php artisan serve
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### **POST** - Processamento de Requests
+> http://localhost:8000/api/process_requests
 
-## License
+Para possibilitar o processamento das solicitações disponibilizadas no arquivo logs.txt, foi criado o endpoint: api/process_requests, o mesmo é responsável por estar realizando a validação da validade do arquivo - se o mesmo é o arquivo contendo registros de solicitações conforme o exemplo disponibilizado no email, realizar a limpeza do banco de dados a fim de que após cada requisição não sejam acrescidos mais dados do que existem no arquivo mantendo sempre os 100k, e também realizar o processamento dos dados adicionando-os em um EventLoop de 1000 em 1000 para realização do salvamento.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Exemplo de Solicitação** - *Também é possível estar utilizando o Postman ou Insomnia*
+```bash
+# OBS: Executar fora do container 
+
+curl --location --request POST  'http://localhost:8000/api/process_requests' \
+--header 'Accept: application/json' \
+--header 'Content-Type: multipart/form-data' \
+--form 'requests=@"path/to/file.txt"'
+```
+
+### **GET** - Geração dos Relatórios
+> http://localhost:8000/api/generate_reports
+
+A fim de possibilitar geração dos arquivos posterior ao processamento dos dados, foi criado o endpoint: api/generate_reports, o mesmo é responsável por estar realizando a verificação da existência de dados no banco de dados e em caso de não existirem retornar uma mensagem solicitando que seja verificado se fora realizado o processamento pelo endpoint: api/process_resquests, também é responsável pela recuperação das informações dos relatórios realizando a criação de um arquivo csv, após a criação serão retornados os paths dos mesmos.
+
+**Exemplo de Solicitação** - *Também é possível estar utilizando o Postman ou Insomnia*
+```bash
+# OBS: Executar fora do container
+
+curl --location --request GET 'http://localhost:8000/api/generate_reports'
+```
+
+2. Com a requisição realizada será possível estar realizando a visualização dos relatórios atráves dos seguintes comandos:
+```bash
+# Requisições por consumidor
+    # Para visualizar todos os dados
+      cat storage/reports/requests-by-consumer.csv
+      
+    # Para visualizar somente os 15 primeiros
+      header --lines=10 storage/reports/requests-by-consumer.csv
+      
+    # Para visualizar somente os 15 últimos
+      tail --lines=10 storage/reports/requests-by-consumer.csv
+      
+# Requisições por serviço
+  cat storage/reports/requests-by-service.csv
+  
+# Tempo médio de request, proxy e gateway/kong por servico
+  cat storage/reports/requests-with-average-latency-by-service.csv
+```
+
