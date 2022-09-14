@@ -11,6 +11,11 @@ class EventLoop
     {
     }
 
+    public function getCallStack(): array
+    {
+        return $this->callStack;
+    }
+
     public function register(callable $callable): void
     {
         $this->callStack[] = new Fiber($callable);
