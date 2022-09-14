@@ -39,16 +39,9 @@ class RequestUnitTest extends TestCase
             'consumer_id',
             'service_id',
             'service_name',
-            'method',
-            'uri',
-            'url',
-            'size',
-            'response_status',
             'proxy_latency',
             'kong_latency',
             'request_latency',
-            'client_ip',
-            'started_at',
         ];
         $this->assertEquals($expectedFillables, $fillables);
     }
@@ -63,7 +56,6 @@ class RequestUnitTest extends TestCase
         $expectedCasts = [
             'consumer_id' => 'string',
             'service_id' => 'string',
-            'started_at' => 'datetime:U',
         ];
         $this->assertEquals($expectedCasts, $casts);
     }

@@ -17,16 +17,9 @@ return new class extends Migration
             $table->uuid('consumer_id');
             $table->uuid('service_id');
             $table->string('service_name');
-            $table->string('method');
-            $table->string('uri');
-            $table->string('url');
-            $table->smallInteger('size');
-            $table->smallInteger('response_status');
             $table->smallInteger('proxy_latency');
             $table->smallInteger('kong_latency');
             $table->smallInteger('request_latency');
-            $table->ipAddress('client_ip');
-            $table->timestamp('started_at');
         });
     }
 

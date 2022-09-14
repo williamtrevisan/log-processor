@@ -22,16 +22,9 @@ class RequestFactory extends Factory
             'consumer_id' => Str::uuid()->toString(),
             'service_id' => Str::uuid()->toString(),
             'service_name' => $this->faker->name,
-            'method' => 'GET',
-            'uri' => '/',
-            'url' => $this->faker->url(),
-            'size' => rand(1, 999),
-            'response_status' => Response::HTTP_OK,
             'proxy_latency' => rand(1, 9999),
             'kong_latency' => rand(1, 99),
             'request_latency' => rand(1, 9999),
-            'client_ip' => $this->faker->ipv4(),
-            'started_at' => $this->faker->date(),
         ];
     }
 }
