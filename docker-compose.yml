@@ -4,6 +4,7 @@ services:
     app:
         build: .
         container_name: log-processor-app
+        entrypoint: ./.docker/entrypoint.sh
         volumes:
           - .:/var/www
           - ./.docker/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
