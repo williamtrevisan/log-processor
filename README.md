@@ -38,7 +38,7 @@ cp .env.example .env
 DB_CONNECTION=mysql
 DB_HOST=db
 DB_PORT=3306
-DB_DATABASE=log_process
+DB_DATABASE=log_processor
 DB_USERNAME=root
 DB_PASSWORD=root
 ```
