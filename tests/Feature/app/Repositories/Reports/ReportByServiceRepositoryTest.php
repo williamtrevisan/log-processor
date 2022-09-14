@@ -5,7 +5,7 @@ namespace Tests\Feature\app\Repositories\Reports;
 use App\Models\Request;
 use App\Repositories\Eloquent\RequestEloquentRepository;
 use App\Repositories\Eloquent\RequestRepositoryInterface;
-use App\Repositories\Reports\ReportByServiceRepository;
+use App\Repositories\Reports\RequestsByServiceReportRepository;
 
 class ReportByServiceRepositoryTest extends ReportTestCase
 {
@@ -18,9 +18,9 @@ class ReportByServiceRepositoryTest extends ReportTestCase
         $this->requestRepository = new RequestEloquentRepository(new Request());
     }
 
-    protected function report(): ReportByServiceRepository
+    protected function report(): RequestsByServiceReportRepository
     {
-        return new ReportByServiceRepository($this->requestRepository);
+        return new RequestsByServiceReportRepository($this->requestRepository);
     }
 
     protected function filename(): string

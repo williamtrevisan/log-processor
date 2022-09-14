@@ -4,7 +4,7 @@ namespace App\Repositories\Reports;
 
 use App\Repositories\Eloquent\RequestRepositoryInterface;
 
-class ReportByConsumerRepository implements ReportRepositoryInterface
+class RequestsByConsumerReportRepository implements ReportRepositoryInterface
 {
     public function __construct(
         private readonly RequestRepositoryInterface $requestRepository

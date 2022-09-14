@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Enums\FileModes;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GenerateReportsResource;
-use App\Repositories\Reports\ReportByConsumerRepository;
-use App\Repositories\Reports\ReportByServiceRepository;
-use App\Repositories\Reports\ReportWithAverageLatencyByServiceRepository;
+use App\Repositories\Reports\RequestsByConsumerReportRepository;
+use App\Repositories\Reports\RequestsByServiceReportRepository;
+use App\Repositories\Reports\RequestsWithAverageLatencyByServiceReportRepository;
 use App\Repositories\Eloquent\RequestRepositoryInterface;
 use App\Exceptions\NoDataException;
 use Illuminate\Http\JsonResponse;
@@ -37,7 +37,7 @@ class GenerateReportsController extends Controller
 
         if (! $this->hasRecords($recordCount)) {
             throw new NoDataException(
-                'There is no processed data. Make sure to process the data via the endpoint: /api/process-requests.'
+                'There is no processed data. Make sure to process the data via the endpoint: /api/process_requests.'
             );
         }
     }
@@ -49,56 +49,56 @@ class GenerateReportsController extends Controller
 
     private function generateReports(): array
     {
-        $reportByConsumerPath = $this->generateReportByConsumer();
-        $reportByServicePath = $this->generateReportByService();
-        $reportWithAverageLatencyByServicePath =
-            $this->generateReportWithAverageLatencyByService();
+        $requestsByConsumerReportPath = $this->generateRequestsByConsumerReport();
+        $requestsByServiceReportPath = $this->generateRequestsByServiceReport();
+        $requestsWithAverageLatencyByServiceReportPath =
+            $this->generateRequestsWithAverageLatencyByServiceReport();
 
         return [
-            'requests-by-consumer' => ['filepath' => $reportByConsumerPath],
-            'requests-by-service' => ['filepath' => $reportByServicePath],
+            'requests-by-consumer' => ['filepath' => $requestsByConsumerReportPath],
+            'requests-by-service' => ['filepath' => $requestsByServiceReportPath],
             'requests-with-average-latency-by-service' => [
-                'filepath' => $reportWithAverageLatencyByServicePath,
+                'filepath' => $requestsWithAverageLatencyByServiceReportPath,
             ],
         ];
     }
 
-    private function generateReportByConsumer(): string
+    private function generateRequestsByConsumerReport(): string
     {
-        $reportByConsumer = new ReportByConsumerRepository($this->requestRepository);
+        $reportRepository =
+            new RequestsByConsumerReportRepository($this->requestRepository);
 
-        $reportHeader = $reportByConsumer->header();
-        $requestsByConsumer = $reportByConsumer->data();
+        $reportHeader = $reportRepository->header();
+        $reportData = $reportRepository->data();
 
         return $this->createCsvFile(
-            $reportByConsumer->filename(), array_merge($reportHeader, $requestsByConsumer)
+            $reportRepository->filename(), array_merge($reportHeader, $reportData)
         );
     }
 
-    private function generateReportByService(): string
+    private function generateRequestsByServiceReport(): string
     {
-        $reportByService = new ReportByServiceRepository($this->requestRepository);
+        $reportRepository =
+            new RequestsByServiceReportRepository($this->requestRepository);
 
-        $reportHeader = $reportByService->header();
-        $requestsByService = $reportByService->data();
+        $reportHeader = $reportRepository->header();
+        $reportData = $reportRepository->data();
 
         return $this->createCsvFile(
-            $reportByService->filename(), array_merge($reportHeader, $requestsByService)
+            $reportRepository->filename(), array_merge($reportHeader, $reportData)
         );
     }
 
-    private function generateReportWithAverageLatencyByService(): string
+    private function generateRequestsWithAverageLatencyByServiceReport(): string
     {
-        $reportWithAverageLatencyByService =
-            new ReportWithAverageLatencyByServiceRepository($this->requestRepository);
+        $reportRepository =
+            new RequestsWithAverageLatencyByServiceReportRepository($this->requestRepository);
 
-        $reportHeader = $reportWithAverageLatencyByService->header();
-        $requestsWithAverageLatencyByService =
-            $reportWithAverageLatencyByService->data();
+        $reportHeader = $reportRepository->header();
+        $reportData = $reportRepository->data();
 
         return $this->createCsvFile(
-            $reportWithAverageLatencyByService->filename(),
-            array_merge($reportHeader, $requestsWithAverageLatencyByService)
+            $reportRepository->filename(), array_merge($reportHeader, $reportData)
         );
     }
 

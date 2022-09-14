@@ -20,7 +20,7 @@ class GenerateReportsApiTest extends TestCase
 
         $response->assertJsonStructure(['message']);
         $this->assertEquals(
-            'There is no processed data. Make sure to process the data via the endpoint: /api/process-requests.',
+            'There is no processed data. Make sure to process the data via the endpoint: /api/process_requests.',
             $response['message']
         );
     }

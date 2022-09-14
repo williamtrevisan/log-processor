@@ -5,7 +5,7 @@ namespace Tests\Feature\app\Repositories\Reports;
 use App\Models\Request;
 use App\Repositories\Eloquent\RequestEloquentRepository;
 use App\Repositories\Eloquent\RequestRepositoryInterface;
-use App\Repositories\Reports\ReportWithAverageLatencyByServiceRepository;
+use App\Repositories\Reports\RequestsWithAverageLatencyByServiceReportRepository;
 
 class ReportWithAverageLatencyByServiceRepositoryTest extends ReportTestCase
 {
@@ -18,9 +18,9 @@ class ReportWithAverageLatencyByServiceRepositoryTest extends ReportTestCase
         $this->requestRepository = new RequestEloquentRepository(new Request());
     }
 
-    protected function report(): ReportWithAverageLatencyByServiceRepository
+    protected function report(): RequestsWithAverageLatencyByServiceReportRepository
     {
-        return new ReportWithAverageLatencyByServiceRepository($this->requestRepository);
+        return new RequestsWithAverageLatencyByServiceReportRepository($this->requestRepository);
     }
 
     protected function filename(): string
