@@ -2,7 +2,10 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\NoDataException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -46,5 +49,19 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e)
+    {
+        return match (true) {
+            $e instanceof NoDataException => $this->showError($e->getMessage(), Response::HTTP_NOT_FOUND),
+            $e instanceof InvalidFileException => $this->showError($e->getMessage(), Response::HTTP_BAD_REQUEST),
+            default => parent::render($request, $e),
+        };
+    }
+
+    private function showError(string $message, int $statusCode): JsonResponse
+    {
+        return response()->json(['message' => $message], $statusCode);
     }
 }

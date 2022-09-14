@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\EventLoop;
+use App\Enums\FileModes;
+use App\EventLoop\EventLoop;
 use App\Http\Controllers\Controller;
 use App\Repositories\Eloquent\RequestRepositoryInterface;
 use App\Transformers\RequestTransformer;
+use App\Exceptions\InvalidFileException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -22,37 +24,45 @@ class ProcessRequestsController extends Controller
 
     public function handle(Request $request): JsonResponse
     {
-        $request->validate(['file' => 'required']);
+        $this->validateRequest($request);
 
-        $filePath = $request->file('file')->path();
+        $filePath = $request->file('requests')->path();
 
-        $isCorrectFile = $this->checkIsCorrectFile($filePath);
-        if (! $isCorrectFile) {
-            return response()->json([
-                'message' => 'Invalid file received.',
-                'errors' => [
-                    'file' => ['Invalid file received.']
-                ],
-            ], Response::HTTP_BAD_REQUEST);
-        }
-
+        $this->checkIfAnInvalidFileHasBeenSubmitted($filePath);
+        $this->deleteRecords();
         $this->processFile($filePath);
 
         return response()->json(['message' => 'Processed file.'], Response::HTTP_OK);
     }
 
-    private function checkIsCorrectFile(string $filePath): bool
+    private function validateRequest(Request $request): void
     {
-        $file = fopen($filePath, 'r');
+        $request->validate(['requests' => 'required']);
+    }
 
+    private function checkIfAnInvalidFileHasBeenSubmitted(string $filePath): void
+    {
+        $file = fopen($filePath, FileModes::Read->value);
         $request = fgets($file);
 
+        if (! $this->existsConsumerIdKey($request)) {
+            throw new InvalidFileException('Invalid file submitted.');
+        }
+    }
+
+    private function existsConsumerIdKey(string $request): bool
+    {
         return key_exists('started_at', RequestTransformer::toArray($request));
+    }
+
+    private function deleteRecords(): void
+    {
+        $this->requestRepository->deleteAll();
     }
 
     private function processFile(string $filePath): void
     {
-        $file = fopen($filePath, 'r');
+        $file = fopen($filePath, FileModes::Read->value);
 
         $requests = [];
         while ($request = fgets($file)) {
@@ -73,16 +83,16 @@ class ProcessRequestsController extends Controller
         $this->eventLoop->execute();
     }
 
+    private function hasMaxQuantity(array $requests): bool
+    {
+        return count($requests) === self::MAX_REQUEST_QUANTITY;
+    }
+
     private function saveRequests(array $requests): callable
     {
         return function () use ($requests) {
             $this->requestRepository->create($requests);
             $this->eventLoop->next();
         };
-    }
-
-    private function hasMaxQuantity(array $requests): bool
-    {
-        return count($requests) === self::MAX_REQUEST_QUANTITY;
     }
 }

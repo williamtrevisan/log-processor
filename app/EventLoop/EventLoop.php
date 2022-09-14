@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\EventLoop;
 
 use App\EventLoop\BaseEventLoop;
 use Fiber;

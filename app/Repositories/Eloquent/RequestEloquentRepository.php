@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Request;
+use Illuminate\Support\Facades\DB;
 
 class RequestEloquentRepository implements RequestRepositoryInterface
 {
@@ -16,57 +17,49 @@ class RequestEloquentRepository implements RequestRepositoryInterface
         $this->request->insert($request);
     }
 
-    public function findByConsumerId(string $consumerId): array
+    public function findByConsumer(): array
     {
         return $this->request
-            ->select([
-                'consumer_id',
-                'client_ip',
-                'started_at',
-                'method',
-                'url',
-                'response_status',
-                'size',
-                'proxy_latency',
-                'kong_latency',
-                'request_latency',
-            ])
-            ->where('consumer_id', '=', $consumerId)
+            ->select('consumer_id')
+            ->selectRaw('count(*) AS quantity_requests')
+            ->groupBy('consumer_id')
+            ->orderBy('quantity_requests')
             ->get()
             ->toArray();
     }
 
-    public function findByServiceId(string $serviceId): array
+    public function findByService(bool $showAverage = false): array
     {
-        return $this->request
+        $query = $this->request
             ->select([
                 'service_id',
                 'service_name',
-                'client_ip',
-                'started_at',
-                'method',
-                'url',
-                'response_status',
-                'size',
-                'proxy_latency',
-                'kong_latency',
-                'request_latency',
             ])
-            ->where('service_id', '=', $serviceId)
+            ->selectRaw('count(*) AS quantity_requests');
+
+        if ($showAverage) {
+            $query->selectRaw('avg(proxy_latency) AS average_proxy_latency')
+                ->selectRaw('avg(kong_latency) AS average_kong_latency')
+                ->selectRaw('avg(request_latency) AS average_request_latency');
+        }
+
+        return $query->groupBy([
+                'service_id',
+                'service_name',
+            ])
+            ->orderBy('quantity_requests')
             ->get()
             ->toArray();
     }
 
-    public function findByServiceIdWithAverageLatency(string $serviceId): array
+    public function count(): int
     {
-        return $this->request
-            ->select(['service_id', 'service_name'])
-            ->selectRaw('avg(proxy_latency) AS average_proxy_latency')
-            ->selectRaw('avg(kong_latency) AS average_kong_latency')
-            ->selectRaw('avg(request_latency) AS average_request_latency')
-            ->where('service_id', '=', $serviceId)
-            ->groupBy(['service_id', 'service_name'])
-            ->first()
-            ->toArray();
+        $requests = $this->request->all();
+        return count($requests);
+    }
+
+    public function deleteAll(): bool
+    {
+        return $this->request->whereNotNull('consumer_id')->delete();
     }
 }
