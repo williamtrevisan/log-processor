@@ -13,7 +13,7 @@ class ReportByServiceRepository implements ReportRepositoryInterface
 
     public function filename(): string
     {
-        return 'report-by-service.csv';
+        return 'requests-by-service.csv';
     }
 
     public function header(): array

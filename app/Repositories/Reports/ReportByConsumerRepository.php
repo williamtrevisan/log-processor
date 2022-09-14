@@ -13,7 +13,7 @@ class ReportByConsumerRepository implements ReportRepositoryInterface
 
     public function filename(): string
     {
-        return 'report-by-consumer.csv';
+        return 'requests-by-consumer.csv';
     }
 
     public function header(): array

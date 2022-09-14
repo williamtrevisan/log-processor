@@ -104,12 +104,12 @@ class GenerateReportsController extends Controller
 
     private function createCsvFile(string $filename, array $content): string
     {
-        $filepath = storage_path('reports/') . $filename;
+        $filepath = app()->storagePath('reports/') . $filename;
 
         $file = fopen($filepath, FileModes::Write->value);
         array_walk($content, fn($line) => fputcsv($file, $line, ';'));
         fclose($file);
 
-        return $filepath;
+        return substr($filepath, 8);
     }
 }

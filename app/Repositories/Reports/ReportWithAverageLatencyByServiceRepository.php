@@ -13,7 +13,7 @@ class ReportWithAverageLatencyByServiceRepository implements ReportRepositoryInt
 
     public function filename(): string
     {
-        return 'report-with-average-latency-by-service.csv';
+        return 'requests-with-average-latency-by-service.csv';
     }
 
     public function header(): array
