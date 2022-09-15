@@ -5,9 +5,7 @@
 
 ## Tecnologias utilizadas
 
-Inicialmente havia optado pela utilização do [Laravel Zero](https://laravel-zero.com/) pelo fato que de o mesmo não teria tantas dependências comparado ao [Laravel](https://laravel.com/), mantendo a stack da empresa (PHP/Laravel), porém, durante o desenvolvimento acabei identificando um problema quanto a realização do upload do arquivo dentro do projeto, levando em consideração que eu não estava imaginando hospedar o arquivo com os dados para possível inclusão dentro do projeto e o github não aceitaria realizar o push do mesmo por ser grande demais. Por conta disso acabei optando por utilizar o [Laravel](https://laravel.com/) para execução do projeto.
-
-Também fora optado pelo [MySQL](https://www.mysql.com/) para o banco de dados, [PHPUnit](https://phpunit.de/) para criação dos testes e o [Eloquent](https://laravel.com/docs/9.x/eloquent) como ORM.
+Optado pela utilização do [Laravel](https://laravel.com/) com [Eloquent](https://laravel.com/docs/9.x/eloquent), [MySQL](https://www.mysql.com/) e [PHPUnit](https://phpunit.de/).
 
 ## Como executar/reproduzir a aplicação
 1. Inicialmente realize o clone do projeto utilizando um dos comandos abaixo, conforme preferência:
