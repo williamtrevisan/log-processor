@@ -65,40 +65,41 @@ class GenerateReportsController extends Controller
 
     private function generateRequestsByConsumerReport(): string
     {
-        $reportRepository =
+        $requestsByConsumerReport =
             new RequestsByConsumerReportRepository($this->requestRepository);
 
-        $reportHeader = $reportRepository->header();
-        $reportData = $reportRepository->data();
-
         return $this->createCsvFile(
-            $reportRepository->filename(), array_merge($reportHeader, $reportData)
+            $requestsByConsumerReport->filename(),
+            array_merge(
+                $requestsByConsumerReport->header(), $requestsByConsumerReport->data()
+            ),
         );
     }
 
     private function generateRequestsByServiceReport(): string
     {
-        $reportRepository =
+        $requestsByServiceReport =
             new RequestsByServiceReportRepository($this->requestRepository);
 
-        $reportHeader = $reportRepository->header();
-        $reportData = $reportRepository->data();
-
         return $this->createCsvFile(
-            $reportRepository->filename(), array_merge($reportHeader, $reportData)
+            $requestsByServiceReport->filename(),
+            array_merge(
+                $requestsByServiceReport->header(), $requestsByServiceReport->data()
+            ),
         );
     }
 
     private function generateRequestsWithAverageLatencyByServiceReport(): string
     {
-        $reportRepository =
+        $requestsWithAverageLatencyByServiceReport =
             new RequestsWithAverageLatencyByServiceReportRepository($this->requestRepository);
 
-        $reportHeader = $reportRepository->header();
-        $reportData = $reportRepository->data();
-
         return $this->createCsvFile(
-            $reportRepository->filename(), array_merge($reportHeader, $reportData)
+            $requestsWithAverageLatencyByServiceReport->filename(),
+            array_merge(
+                $requestsWithAverageLatencyByServiceReport->header(),
+                $requestsWithAverageLatencyByServiceReport->data()
+            ),
         );
     }
 
