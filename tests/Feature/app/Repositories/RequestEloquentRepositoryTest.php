@@ -5,14 +5,11 @@ namespace Tests\Feature\app\Repositories;
 use App\Models\Request;
 use App\Repositories\Eloquent\RequestEloquentRepository;
 use App\Repositories\Eloquent\RequestRepositoryInterface;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
 class RequestEloquentRepositoryTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected RequestRepositoryInterface $requestRepository;
 
     protected function setUp(): void

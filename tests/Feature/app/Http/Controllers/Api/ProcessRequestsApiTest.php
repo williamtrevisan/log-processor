@@ -2,15 +2,12 @@
 
 namespace Tests\Feature\app\Http\Controllers\Api;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Http\Testing\File;
 use Tests\TestCase;
 
 class ProcessRequestsApiTest extends TestCase
 {
-    use RefreshDatabase;
-
     private string $uri = '/api/process_requests';
 
     /**
