@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\FileModes;
 use App\EventLoop\EventLoop;
 use App\Exceptions\InvalidFileException;
 use App\Http\Controllers\Controller;
@@ -15,6 +14,7 @@ use Illuminate\Http\Response;
 class ProcessRequestsController extends Controller
 {
     const MAX_REQUEST_QUANTITY = 1000;
+    const READ = 'r';
 
     public function __construct(
         private RequestRepositoryInterface $requestRepository,
@@ -42,7 +42,7 @@ class ProcessRequestsController extends Controller
 
     private function checkIfAnInvalidFileHasBeenSubmitted(string $filePath): void
     {
-        $file = fopen($filePath, FileModes::Read->value);
+        $file = fopen($filePath, self::READ);
         $request = fgets($file);
 
         if (! $this->existsConsumerIdKey($request)) {
@@ -62,7 +62,7 @@ class ProcessRequestsController extends Controller
 
     private function processFile(string $filePath): void
     {
-        $file = fopen($filePath, FileModes::Read->value);
+        $file = fopen($filePath, self::READ);
 
         $requests = [];
         while ($request = fgets($file)) {

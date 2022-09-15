@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\FileModes;
 use App\Exceptions\NoDataException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GenerateReportsResource;
@@ -15,6 +14,8 @@ use Illuminate\Http\Response;
 
 class GenerateReportsController extends Controller
 {
+    const WRITE = 'w';
+
     public function __construct(
         private readonly RequestRepositoryInterface $requestRepository
     ) {
@@ -107,7 +108,7 @@ class GenerateReportsController extends Controller
     {
         $filepath = app()->storagePath('reports/').$filename;
 
-        $file = fopen($filepath, FileModes::Write->value);
+        $file = fopen($filepath, self::WRITE);
         array_walk($content, fn ($line) => fputcsv($file, $line, ';'));
         fclose($file);
 
