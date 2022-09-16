@@ -44,6 +44,7 @@ class ProcessRequestsController extends Controller
     {
         $file = fopen($filePath, self::READ);
         $request = fgets($file);
+        fclose($file);
 
         if (! $this->existsConsumerIdKey($request)) {
             throw new InvalidFileException('Invalid file submitted.');
@@ -73,6 +74,8 @@ class ProcessRequestsController extends Controller
 
             $requests[] = RequestTransformer::transform($request);
         }
+
+        fclose($file);
 
         if (! $requests) {
             $this->eventLoop->execute();
